@@ -18,7 +18,7 @@ type httpServerFixture struct {
 func (f *httpServerFixture) BeforeAll(t *testing.T) error {
 	f.srv = httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("X-Tracing-Id", "1")
-		w.WriteHeader(http.StatusFound)
+		w.WriteHeader(http.StatusNoContent)
 	}))
 
 	return nil
@@ -44,8 +44,8 @@ func TestExample(t *testing.T) {
 	fixture.With(t, new(httpServerFixture)).
 		Run("http status code", func(t *testing.T, f *httpServerFixture) {
 			got := f.sendRequest(t).StatusCode
-			if got != http.StatusFound {
-				t.Errorf("expected %d but got %d", http.StatusFound, got)
+			if got != http.StatusNoContent {
+				t.Errorf("expected %d but got %d", http.StatusNoContent, got)
 			}
 		}).
 		Run("tracing header", func(t *testing.T, f *httpServerFixture) {
