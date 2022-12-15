@@ -1,0 +1,16 @@
+@startuml
+
+skinparam Linetype ortho
+
+(*) --> BeforeAll
+--> BeforeEach
+--> Test
+--> AfterEach
+if "more tests in suite?" then
+    --> [yes] BeforeEach
+else
+    --> [no] AfterAll
+    --> (*)
+endif
+
+@enduml
