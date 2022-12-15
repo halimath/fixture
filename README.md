@@ -10,7 +10,7 @@ Re-usable test setups und teardowns for go(lang) `testing` tests.
 `fixture` implements a micro-framework ontop of the standard library's 
 `testing` package that allow writing of reusable test setup and teardown code.
 
-# Installation`
+# Installation
 
 This module uses golang modules and can be installed with
 
