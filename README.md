@@ -148,6 +148,33 @@ With(t, TempDir("someprefix")).
 	})
 ```
 
+### HTTPServerFixture
+
+The `HTTPServerFixture` creates a HTTP server using `httptest.NewServer` which
+will be started on `BeforeAll` and closed on `AfterAll`. The server uses a
+`http.ServerMux` as its handler and handler functions can be registered at any
+stage. The server uses HTTP/2 but no TLS; both can be changed easily.
+
+```go
+f := new(HTTPServerFixture)
+
+f.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+})
+
+With(t, f).
+	Run("/", func(t *testing.T, f *HTTPServerFixture) {
+		res, err := http.Get(f.URL())
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if res.StatusCode != http.StatusOK {
+			t.Errorf("expected 200 but got %d", res.StatusCode)
+		}
+	})
+```
+
 # License
 
 Copyright 2022 Alexander Metzner.
